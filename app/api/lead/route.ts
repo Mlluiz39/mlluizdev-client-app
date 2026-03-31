@@ -54,9 +54,9 @@ export async function POST(req: Request) {
                <p>Please check your Notion CRM for more details.</p>`,
       });
       if (resendRes.error) {
-        console.error("[Resend Error]", resendRes.error.message);
+        console.error("[Resend Error]", resendRes.error);
       } else {
-        console.log(`[Resend] Notification email sent for lead ${name}.`);
+        console.log(`[Resend] Notification email sent. ID: ${resendRes.data?.id}`);
       }
 
       // Optional: Send a welcome email to the user
