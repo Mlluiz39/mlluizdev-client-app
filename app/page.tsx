@@ -40,7 +40,7 @@ const portfolioItems = [
     img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAr9B39O4s5agfHTfW4tM2w7oGMj0t6jghtrLxOxzN_1VtIli1wzKK3mJsgY18-iP6jmvcnXLnFsZLmk9-fO_noFw9nR7HA5e4ubp9-cF4SoOlJVD-A90C4pHEVEWvqFoEShaCw2ySPp2cQy4i5PmpF-rWldO0cGrNWMcbXSzft0Pqx2_tnAbVbxwwiRiVn9zj8EJxVsu0Z0iXKMXbYXqtv3UOY8MxEve8odo1QtsBxmzcKnSzQ3kHaUD1MuXpn8iyzApQnEZMei0w",
   },
   {
-    title: "Studio Kinetic",
+    title: "mlluizdevtech",
     result: "Global Design Award",
     alt: "Creative agency portfolio landing page",
     img: "https://lh3.googleusercontent.com/aida-public/AB6AXuC8rL3y2m2JsRYpG8pO9sf73479btOXS6PVttT9f1BFLM_Z72WmPK4B1qSQlKmTkIueDcqAISMhkoSbL03lWpf8GWin0Dv1VkQWmoIoldfqy_LnM920oWOsjqWzryi8plIXaPZ2_LV2HQTb8DvFGpd64jC2JLZfs2vbjqdm95uynF37lEw2UXsNNpuCK1M13bNpAM_i2Fn6H9CCI9_gPTSuWd2Pbe2MxVYThFM_EBv7Onhe1u49XddATJ6EVMEIRltZpRvzbZ0u0jo",
@@ -86,7 +86,7 @@ const processSteps = [
 const testimonials = [
   {
     quote:
-      "Kinetic transformed our stagnant brochure site into a lead-generating machine. We saw a return on investment within the first two weeks of launch.",
+      "mlluizdevtech transformed our stagnant brochure site into a lead-generating machine. We saw a return on investment within the first two weeks of launch.",
     name: "Sarah Jennings",
     role: "CEO, Jennings Architecture",
   },
