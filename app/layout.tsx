@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
 
@@ -18,6 +18,11 @@ export const metadata: Metadata = {
   title: "mlluizdevtech | High-Converting Digital Curations",
   description:
     "Get more customers with a high-converting website. Premium digital engineering with no upfront payment.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

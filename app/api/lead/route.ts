@@ -1,9 +1,19 @@
 import { Client } from "@notionhq/client";
 import { Resend } from "resend";
+import { env } from "@/lib/env";
 
-// Initialize external clients dynamically to avoid crashing if env vars are missing
-const notion = process.env.NOTION_KEY ? new Client({ auth: process.env.NOTION_KEY }) : null;
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+// Initialize external clients dynamically
+const notion = env.NOTION_KEY ? new Client({ auth: env.NOTION_KEY }) : null;
+const resend = env.RESEND_API_KEY ? new Resend(env.RESEND_API_KEY) : null;
+
+/** Escapes special HTML characters to prevent XSS in email templates */
+const esc = (s: string) =>
+  s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 export async function POST(req: Request) {
   try {
@@ -18,10 +28,10 @@ export async function POST(req: Request) {
     }
 
     // 1. Save Lead to Notion CRM
-    if (notion && process.env.NOTION_DATABASE_ID) {
+    if (notion && env.NOTION_DATABASE_ID) {
       try {
         await notion.pages.create({
-          parent: { database_id: process.env.NOTION_DATABASE_ID },
+          parent: { database_id: env.NOTION_DATABASE_ID },
           properties: {
             Name: { title: [{ text: { content: name } }] },
             Email: { email: email },
@@ -43,14 +53,14 @@ export async function POST(req: Request) {
     if (resend) {
       // Send a notification to you (the owner)
       const resendRes = await resend.emails.send({
-        from: "Acme <onboarding@resend.dev>", // Replace with your verified domain in production if possible
-        to: "mlluizdevtech@gmail.com", // Adicionado o email da sua conta Resend para permitir testes gratuitos
-        subject: `New Lead Alert: ${name}`,
+        from: env.RESEND_FROM,
+        to: "mlluizdevtech@gmail.com",
+        subject: `New Lead Alert: ${esc(name)}`,
         html: `<h2>New Lead Captured!</h2>
-               <p><strong>Name:</strong> ${name}</p>
-               <p><strong>Email:</strong> ${email}</p>
-               <p><strong>WhatsApp:</strong> ${whatsapp}</p>
-               <p><strong>Company:</strong> ${company}</p>
+               <p><strong>Name:</strong> ${esc(name)}</p>
+               <p><strong>Email:</strong> ${esc(email)}</p>
+               <p><strong>WhatsApp:</strong> ${esc(whatsapp)}</p>
+               <p><strong>Company:</strong> ${esc(company)}</p>
                <p>Please check your Notion CRM for more details.</p>`,
       });
       if (resendRes.error) {
@@ -61,12 +71,11 @@ export async function POST(req: Request) {
 
       // Optional: Send a welcome email to the user
       // await resend.emails.send({
-      //   from: "Acme <onboarding@resend.dev>",
+      //   from: process.env.RESEND_FROM ?? "Acme <onboarding@resend.dev>",
       //   to: email,
       //   subject: "Thanks for requesting a preview!",
-      //   html: `<p>Hi ${name},</p><p>We received your request and will get back to you within 48 hours.</p>`,
+      //   html: `<p>Hi ${esc(name)},</p><p>We received your request and will get back to you within 48 hours.</p>`,
       // });
-      console.log(`[Resend] Notification email sent for lead ${name}.`);
     } else {
       console.warn("Resend API Key is missing. Skipping email automation.");
     }

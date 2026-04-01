@@ -85,6 +85,9 @@ body {
 .tonal-shadow {
   box-shadow: 0 20px 40px -5px rgba(25, 28, 30, 0.04);
 }
+.dark .tonal-shadow {
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3);
+}
 
 /* ===== Material Symbols ===== */
 .material-symbols-outlined {
