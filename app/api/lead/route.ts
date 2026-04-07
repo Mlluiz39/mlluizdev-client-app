@@ -42,8 +42,8 @@ export async function POST(req: Request) {
           },
         });
         console.log(`[Notion] Lead ${name} saved successfully.`);
-      } catch (e: any) {
-        console.error("[Notion Error]", e.message);
+      } catch (e) {
+        console.error("[Notion Error]", e instanceof Error ? e.message : String(e));
       }
     } else {
       console.warn("Notion API Keys are missing. Skipping CRM save.");

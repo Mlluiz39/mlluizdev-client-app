@@ -1,33 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+function subscribe(callback: () => void) {
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
+}
+
+function getSnapshot() {
+  return document.documentElement.classList.contains("dark");
+}
 
 export function ThemeToggle() {
-  const [isDark, setIsDark] = useState(true);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    setIsDark(document.documentElement.classList.contains("dark"));
-  }, []);
+  const isDark = useSyncExternalStore(subscribe, getSnapshot, () => true);
 
   const toggleTheme = () => {
-    const isNowDark = document.documentElement.classList.contains("dark");
-    if (isNowDark) {
+    if (isDark) {
       document.documentElement.classList.remove("dark");
       localStorage.theme = "light";
-      setIsDark(false);
     } else {
       document.documentElement.classList.add("dark");
       localStorage.theme = "dark";
-      setIsDark(true);
     }
   };
-
-  // Prevent UI flickering before mounting
-  if (!mounted) {
-    return <div className="w-10 h-10" />;
-  }
 
   return (
     <button
